@@ -53,10 +53,13 @@ $(document).ready(function () {
       player2.unshift(player2Card);
     } else {
       let pot = [player1Card, player2Card];
-      let player1TieCard;
-      let player2TieCard;
+      let player1TieCard = "";
+      let player2TieCard = "";
 
-      do {
+      while (
+        values.indexOf(player1TieCard.split(" ")[0]) ===
+        values.indexOf(player2TieCard.split(" ")[0])
+      ) {
         player1TieCard = player1.pop();
         player2TieCard = player2.pop();
 
@@ -96,10 +99,7 @@ $(document).ready(function () {
           pot.push(player1TieCard);
           pot.push(player2TieCard);
         }
-      } while (
-        values.indexOf(player1TieCard.split(" ")[0]) ===
-        values.indexOf(player2TieCard.split(" ")[0])
-      );
+      }
     }
 
     $("#player1-score").text(player1.length);
