@@ -1,3 +1,25 @@
 .hidden {
   display: none;
 }
+
+body,
+button {
+  margin: auto;
+}
+
+body {
+  width: 65%;
+}
+
+#score {
+  margin-bottom: 2em;
+}
+
+#output {
+  margin-top: 2em;
+}
+
+#btn-wrap {
+  display: flex;
+  justify-content: center;
+}

@@ -29,26 +29,32 @@ $(document).ready(function () {
 
   $("#play").click(function () {
     $("#output").text("");
+    $("#play").attr("disabled", "true");
 
     const player1Card = player1.pop();
     const player2Card = player2.pop();
 
-    $("#output").append($("<p>You played: " + player1Card + "</p>"));
-    $("#output").append($("<p>They played: " + player2Card + "</p>"));
+    $("#output").append($("<h2>You played: " + player1Card + "</h2>"));
+
+    delayMessage(
+      $("#output"),
+      $("<h2>They played: " + player2Card + "</h2>"),
+      500
+    );
 
     let winner = "";
     if (
       values.indexOf(player1Card.split(" ")[0]) >
       values.indexOf(player2Card.split(" ")[0])
     ) {
-      winner = "player 1";
+      winner = "Player 1";
       player1.unshift(player1Card);
       player1.unshift(player2Card);
     } else if (
       values.indexOf(player1Card.split(" ")[0]) <
       values.indexOf(player2Card.split(" ")[0])
     ) {
-      winner = "player 2";
+      winner = "Player 2";
       player2.unshift(player1Card);
       player2.unshift(player2Card);
     } else {
@@ -70,16 +76,16 @@ $(document).ready(function () {
         pot.push(player2.pop());
         pot.push(player2.pop());
 
-        $("#output").append($("<p>You Tied! Tie-breaker round: </p>"));
+        $("#output").append($("<h2>You Tied! Tie-breaker round: </h2>"));
 
-        $("#output").append($("<p>You played: " + player1TieCard + "</p>"));
-        $("#output").append($("<p>They played: " + player2TieCard + "</p>"));
+        $("#output").append($("<h2>You played: " + player1TieCard + "</h2>"));
+        $("#output").append($("<h2>They played: " + player2TieCard + "</h2>"));
 
         if (
           values.indexOf(player1TieCard.split(" ")[0]) >
           values.indexOf(player2TieCard.split(" ")[0])
         ) {
-          winner = "player 1";
+          winner = "Player 1";
           player1.unshift(player1TieCard);
           player1.unshift(player2TieCard);
           pot.forEach(function (card) {
@@ -89,7 +95,7 @@ $(document).ready(function () {
           values.indexOf(player1TieCard.split(" ")[0]) <
           values.indexOf(player2TieCard.split(" ")[0])
         ) {
-          winner = "player 2";
+          winner = "Player 2";
           player2.unshift(player1TieCard);
           player2.unshift(player2TieCard);
           pot.forEach(function (card) {
@@ -102,16 +108,18 @@ $(document).ready(function () {
       }
     }
 
-    $("#player1-score").text(player1.length);
-    $("#player2-score").text(player2.length);
-
-    $("#output").append($("<p>" + winner + " won the round!</p>"));
+    setTimeout(function () {
+      $("#player1-score").text(player1.length);
+      $("#player2-score").text(player2.length);
+      $("#play").removeAttr("disabled");
+      $("#output").append($("<h2>" + winner + " won the round!</h2>"));
+    }, 500);
 
     if (player1.length === 0 || player2.length === 0) {
       if (player1.length === 0) {
-        $("#output").append($("<p> Player 2 won the game!</p>"));
+        $("#output").append($("<h1> Player 2 won the game!</h1>"));
       } else {
-        $("#output").append($("<p> Player 1 won the game!</p>"));
+        $("#output").append($("<h1> Player 1 won the game!</h1>"));
       }
 
       $("#restart").removeClass("hidden");
@@ -147,4 +155,10 @@ function shuffle(deck) {
     deck[index] = deck[j];
     deck[j] = card;
   });
+}
+
+function delayMessage(parent, child, delay) {
+  setTimeout(function () {
+    parent.append(child);
+  }, delay);
 }
